@@ -6,8 +6,6 @@ services:
   container_name: simplephp-php
   volumes:
   - .:/var/www/html
-  networks:
-  - app-net
 
  nginx:
   image: nginx:alpine
