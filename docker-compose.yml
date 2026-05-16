@@ -6,8 +6,6 @@ services:
   container_name: simplephp-php
   volumes:
   - php-assets:/var/www/html
-  networks:
-  - traefik-proxy
 
  nginx:
   image: nginx:alpine
@@ -23,13 +21,7 @@ services:
   - traefik.http.routers.simplephp.entrypoints=websecure
   - traefik.http.routers.simplephp.tls.certresolver=letsencrypt
   - traefik.http.services.simplephp.loadbalancer.server.port=80
-  networks:
-  - traefik-proxy
 
 volumes:
   # Define the shared volume
   php-assets:
-
-networks:
- traefik-proxy:
-  external: true
