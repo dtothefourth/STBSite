@@ -17,7 +17,7 @@ services:
   - php
   labels:
   - traefik.enable=true
-  - traefik.http.routers.simplephp.rule=Host(`stbsite.srv1662272.hstgr.cloud`)
+  - traefik.http.routers.simplephp.rule=Host(`stbsite.justendythings.com`)
   - traefik.http.routers.simplephp.entrypoints=websecure
   - traefik.http.routers.simplephp.tls.certresolver=letsencrypt
   - traefik.http.services.simplephp.loadbalancer.server.port=80
