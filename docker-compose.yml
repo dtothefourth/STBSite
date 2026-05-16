@@ -4,8 +4,6 @@ services:
  php:
   image: php:8.3-fpm
   container_name: simplephp-php
-  volumes:
-  - ./html:/var/www/html
 
  nginx:
   image: nginx:alpine
@@ -13,7 +11,6 @@ services:
   - "8080:80"
   container_name: simplephp-nginx
   volumes:
-  - ./html:/var/www/html
   - ./nginx-conf:/etc/nginx/conf.d
   depends_on:
   - php
