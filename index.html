@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newest • [Site Name]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Roboto+Mono:wght@400;500&amp;display=swap');
+        
+        :root {
+            --accent: #ff2d95;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .thumbnail {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .thumbnail:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+        }
+        
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .nav-link {
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        
+        .active-tab {
+            color: var(--accent);
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .filter-btn {
+            transition: all 0.2s;
+        }
+        
+        .filter-btn.active {
+            background-color: #ff2d95;
+            color: white;
+            border-color: #ff2d95;
+        }
+    </style>
+</head>
+<body class="tail-container bg-zinc-950 text-zinc-200 min-h-screen">
+    <!-- Top Navigation -->
+    <nav class="bg-zinc-900 border-b border-zinc-800">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="flex items-center justify-between h-14">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">V</div>
+                    <span class="font-semibold text-2xl tracking-tighter">vorehub</span>
+                </div>
+
+                <!-- Main Nav -->
+                <div class="flex items-center gap-8 text-sm font-medium">
+                    <a href="#" class="nav-link text-white">Artists</a>
+                    <a href="#" class="nav-link active-tab text-white">Tags</a>
+                    <a href="#" class="nav-link text-white">Categories</a>
+                    <a href="#" class="nav-link text-white">Temp Blacklist</a>
+                </div>
+
+                <!-- Right side controls -->
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <select class="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-1.5 text-sm focus:outline-none focus:border-pink-500 w-36">
+                            <option>Select...</option>
+                        </select>
+                    </div>
+                    <button class="bg-pink-600 hover:bg-pink-700 transition-colors px-5 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>vore</span>
+                    </button>
+                    <div class="relative">
+                        <select class="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-1.5 text-sm focus:outline-none focus:border-pink-500 w-40">
+                            <option>Select...</option>
+                        </select>
+                    </div>
+                    <div class="relative w-80">
+                        <input type="text" 
+                               placeholder="Search tags, categories, artists"
+                               class="w-full bg-zinc-800 border border-zinc-700 rounded-xl pl-10 py-2 text-sm focus:outline-none focus:border-pink-500">
+                        <div class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                    <button class="w-9 h-9 bg-zinc-800 hover:bg-zinc-700 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-screen-2xl mx-auto px-6 py-6">
+        <!-- Header -->
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight">Newest <span class="text-zinc-500 text-2xl font-normal">(2,351)</span></h1>
+            </div>
+            
+            <div class="flex items-center gap-2 text-sm">
+                <div class="bg-zinc-900 px-4 py-2 rounded-2xl flex items-center gap-2 border border-zinc-800">
+                    <span class="text-emerald-400">●</span>
+                    <span class="text-zinc-400">1,284 online</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <span class="uppercase text-xs tracking-widest font-mono text-zinc-500">Filters &amp; Sorting</span>
+                    <div class="h-px w-12 bg-zinc-700"></div>
+                </div>
+                <button onclick="resetFilters()" 
+                        class="text-pink-400 hover:text-pink-300 text-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Reset</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-12 gap-8">
+                <!-- Sort -->
+                <div class="col-span-12 md:col-span-5">
+                    <p class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Sort By</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="toggleSort(this)" class="filter-btn active px-5 py-2 bg-zinc-800 hover:bg-zinc-700 border border-transparent rounded-2xl text-sm">Newest</button>
+                        <button onclick="toggleSort(this)" class="filter-btn px-5 py-2 bg-zinc-800 hover:bg-zinc-700 border border-transparent rounded-2xl text-sm">Most Viewed</button>
+                        <button onclick="toggleSort(this)" class="filter-btn px-5 py-2 bg-zinc-800 hover:bg-zinc-700 border border-transparent rounded-2xl text-sm">Top Rated</button>
+                        <button onclick="toggleSort(this)" class="filter-btn px-5 py-2 bg-zinc-800 hover:bg-zinc-700 border border-transparent rounded-2xl text-sm">Longest</button>
+                        <button onclick="toggleSort(this)" class="filter-btn px-5 py-2 bg-zinc-800 hover:bg-zinc-700 border border-transparent rounded-2xl text-sm">Random</button>
+                    </div>
+                </div>
+
+                <!-- Date -->
+                <div class="col-span-12 md:col-span-3">
+                    <p class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Date Added</p>
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <select class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 text-sm">
+                                <option>Anytime</option>
+                                <option>Last 24h</option>
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Duration -->
+                <div class="col-span-12 md:col-span-4">
+                    <p class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Duration</p>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1">
+                            <input type="number" value="0" 
+                                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 text-sm focus:outline-none">
+                        </div>
+                        <span class="text-zinc-500">to</span>
+                        <div class="flex-1">
+                            <input type="number" value="600" 
+                                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 text-sm focus:outline-none">
+                        </div>
+                        <button class="bg-pink-600 hover:bg-pink-700 transition-colors px-8 py-3 rounded-2xl text-sm font-medium">Apply</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verified Uploaders -->
+            <div class="mt-8 flex items-center justify-between border-t border-zinc-800 pt-6">
+                <div class="flex items-center gap-6">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <div class="relative">
+                            <input type="checkbox" checked class="peer sr-only">
+                            <div class="w-11 h-6 bg-zinc-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-500/30 rounded-full peer peer-checked:bg-emerald-500"></div>
+                            <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-5"></div>
+                        </div>
+                        <span class="text-sm">Verified Uploaders Only</span>
+                    </label>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="px-6 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl text-sm">All Uploaders</button>
+                    <button class="px-6 py-2 bg-pink-600 hover:bg-pink-700 rounded-2xl text-sm font-medium">Verified Uploaders</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="video-grid">
+            <!-- Card 1 -->
+            <div class="group">
+                <div class="thumbnail bg-zinc-800 aspect-video relative">
+                    <img src="https://picsum.photos/id/1015/600/340" alt="Skibidi Toilet Smash" 
+                         class="w-full h-full object-cover">
+                    <div class="duration">2:39</div>
+                </div>
+                <div class="mt-3 px-1">
+                    <p class="font-medium line-clamp-2 leading-tight">Skibidi Toilet Smash - Season 2 | TVGirlCraft</p>
+                    <div class="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+                        <span>227k views</span>
+                        <span class="w-1 h-1 bg-zinc-500 rounded-full"></span>
+                        <span>1 day ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="group">
+                <div class="thumbnail bg-zinc-800 aspect-video relative">
+                    <img src="https://picsum.photos/id/201/600/340" alt="Quilava vore" 
+                         class="w-full h-full object-cover">
+                    <div class="duration">3:30</div>
+                </div>
+                <div class="mt-3 px-1">
+                    <p class="font-medium line-clamp-2 leading-tight">Quilava vore</p>
+                    <div class="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+                        <span>60k views</span>
+                        <span class="w-1 h-1 bg-zinc-500 rounded-full"></span>
+                        <span>3 days ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="group">
+                <div class="thumbnail bg-zinc-800 aspect-video relative">
+                    <img src="https://picsum.photos/id/1016/600/340" alt="Moon" 
+                         class="w-full h-full object-cover">
+                    <div class="duration">12:38</div>
+                </div>
+                <div class="mt-3 px-1">
+                    <p class="font-medium line-clamp-2 leading-tight">Moon - (Final Part)</p>
+                    <div class="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+                        <span>76k views</span>
+                        <span class="w-1 h-1 bg-zinc-500 rounded-full"></span>
+                        <span>2 days ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="group">
+                <div class="thumbnail bg-zinc-800 aspect-video relative">
+                    <img src="https://picsum.photos/id/237/600/340" alt="Deeper club" 
+                         class="w-full h-full object-cover">
+                    <div class="duration">6:00</div>
+                </div>
+                <div class="mt-3 px-1">
+                    <p class="font-medium line-clamp-2 leading-tight">Deeper club by vore house/kaisnareff</p>
+                    <div class="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+                        <span>72k views</span>
+                        <span class="w-1 h-1 bg-zinc-500 rounded-full"></span>
+                        <span>5 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load more -->
+        <div class="flex justify-center mt-12">
+            <button onclick="loadMore()" 
+                    class="px-10 py-4 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded-3xl text-sm font-medium flex items-center gap-3">
+                <span>Load more videos</span>
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleSort(btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function resetFilters() {
+            alert("Filters reset! (demo)");
+        }
+
+        function loadMore() {
+            alert("In a real site this would load more thumbnails ✨");
+        }
+
+        // Tailwind script already loaded
+        console.log("%c✅ Page cloned successfully! Feel free to customize.", "color: #ff2d95; font-size: 14px;");
+    </script>
+</body>
+</html>
