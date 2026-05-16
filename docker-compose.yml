@@ -7,7 +7,7 @@ services:
   volumes:
   - php-assets:/var/www/html
   networks:
-  - app-net
+  - traefik-proxy
 
  nginx:
   image: nginx:alpine
