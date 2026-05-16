@@ -25,13 +25,10 @@ services:
   - traefik.http.services.simplephp.loadbalancer.server.port=80
   networks:
   - app-net
-  - traefik-proxy
 
 volumes:
   # Define the shared volume
   php-assets:
 
 networks:
- app-net:
- traefik-proxy:
- external: true
+ app-net: {}
