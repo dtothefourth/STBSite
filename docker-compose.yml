@@ -6,18 +6,32 @@ services:
   container_name: simplephp-php
   volumes:
   - php-assets:/var/www/html
+  networks:
+  - app-net
 
  nginx:
   image: nginx:alpine
-  ports:
-  - "8080:80"
   container_name: simplephp-nginx
   volumes:
   - php-assets:/var/www/html
   - ./nginx-conf:/etc/nginx/conf.d
   depends_on:
   - php
+ labels:
+ - traefik.enable=true
+ - traefik.http.routers.simplephp.rule=Host(`srv1662272.hstgr.cloud`)
+ - traefik.http.routers.simplephp.entrypoints=websecure
+ - traefik.http.routers.simplephp.tls.certresolver=letsencrypt
+ - traefik.http.services.simplephp.loadbalancer.server.port=80
+ networks:
+ - app-net
+ - traefik-proxy
 
 volumes:
   # Define the shared volume
   php-assets:
+
+networks:
+ app-net:
+ traefik-proxy:
+ external: true
