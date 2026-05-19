@@ -5,14 +5,14 @@ services:
   image: php:8.3-fpm
   container_name: simplephp-php
   volumes:
-  - php-assets:/var/www/html
+  - ./site:/var/www/html
 
  nginx:
   image: nginx:alpine
   container_name: simplephp-nginx
   volumes:
-  - php-assets:/var/www/html
-  - ./nginx-conf:/etc/nginx/conf.d
+   - ./site:/var/www/html
+   - ./nginx-conf:/etc/nginx/conf.d
   depends_on:
   - php
   labels:
@@ -21,7 +21,3 @@ services:
   - traefik.http.routers.simplephp.entrypoints=websecure
   - traefik.http.routers.simplephp.tls.certresolver=letsencrypt
   - traefik.http.services.simplephp.loadbalancer.server.port=80
-
-volumes:
-  # Define the shared volume
-  php-assets:
